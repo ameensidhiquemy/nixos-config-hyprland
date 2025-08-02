@@ -1,4 +1,5 @@
 {
+  inputs,
   pkgs,
   config,
   ...
@@ -25,7 +26,7 @@
     fprintd.enable = true;
 
     upower = {
-      # enable = true;
+      enable = true;
       percentageLow = 20;
       percentageCritical = 5;
       percentageAction = 3;
@@ -86,7 +87,7 @@
   hardware.bluetooth.enable = true;
   # Set your time zone.
   time.timeZone = "Asia/Kolkata";
-
+  virtualisation.docker.enable = true;
   qt = {
     enable = true;
     platformTheme = "kde"; # use QT settings from Plasma
@@ -135,14 +136,14 @@
   services.displayManager.sddm.enable = true;
   services.displayManager.sddm.wayland.enable = true;
   services.desktopManager.plasma6.enable = true;
-  #   services.displayManager.defaultSession = “plasma6”;
+  # services.displayManager.defaultSession = “plasma6”;
 
   #   # --- MODIFIED: Enable Plasma and use SDDM as the Display Manager ---
   services.xserver.displayManager.sddm.enable = true;
   #
   services.desktopManager = {
-    # cosmic.enable = true;
-    #       plasma6.enable = true; # Added KDE Plasma
+    cosmic.enable = true;
+    # plasma6.enable = true; # Added KDE Plasma
   };
 
   # # Configure keymap in X11
@@ -214,12 +215,90 @@
   #   ];
 
   # programs.thefuck.enable = true;
-
-  environment.shells = with pkgs; [zsh];
-
+  programs.fish.enable = true;
+  services.udev.extraRules = ''
+    ACTION=="add", ATTR{name}=="AT Translated Set 2 keyboard", ENV{LIBINPUT_IGNORE_DEVICE}="1"
+  '';
+  environment.shells = with pkgs; [fish];
   # List packages installed in system profile.
   environment.systemPackages = with pkgs; [
     # General Applications
+    gemini-cli
+    wget
+    unzip
+    gum
+    rsync
+    figlet
+    xdg-user-dirs
+    hyprland
+    hyprpaper
+    hyprlock
+    hypridle
+    hyprpicker
+    noto-fonts
+    noto-fonts-emoji
+    noto-fonts-cjk-sans
+    noto-fonts-extra
+    xdg-desktop-portal-hyprland
+    libnotify
+    kitty
+    # qt5-wayland
+    # qt6-wayland
+    uwsm
+    fastfetch
+    xdg-desktop-portal-gtk
+    # ezapy
+    # python-pip
+    # python-gobject
+    # python-screeninfo
+    # tumbler
+    # nm-connection-editor
+    # network-manager-applet
+    gtk4
+    libadwaita
+    fuse2
+    imagemagick
+    jq
+    xclip
+    neovim
+    htop
+    rustc
+    cargo
+    blueman
+    grim
+    slurp
+    cliphist
+    nwg-look
+    qt6ct
+    waybar
+    rofi-wayland
+    # polkit-gnome
+    zsh
+    zsh-completions
+    fzf
+    # fp
+    pavucontrol
+    # breeze
+    flatpak
+    # swaync
+    gvfs
+    wlogout
+    # hyprshadeway
+    # paper
+    # grimblast-git
+    # bibata-cursor-theme-bin
+    # pacseek
+    # otf-font-awesome
+    # ttf-fira-sans
+    # ttf-fira-code
+    # ttf-firacode-nerd
+    # ttf-dejavu
+    nwg-dock-hyprland
+    # checkupdates-with-aur
+    power-profiles-daemon
+    # python-pywalfox
+    vlc
+
     jdk
     acpi
     gettext
@@ -276,9 +355,9 @@
     mako
 
     # # CLI tools
-    # ffmpeg
-    # ripgrep
-    # fd
+    ffmpeg
+    ripgrep
+    fd
 
     # # COSMIC Packages (Good to keep for the COSMIC session)
     cosmic-session
@@ -300,71 +379,71 @@
     kdePackages.plasmatube
     kdePackages.plasma-sdk
     plasma-theme-switcher
-    #     libsForQt5.plasma-sdk
-    #     libsForQt5.plasma-nano
+    libsForQt5.plasma-sdk
+    libsForQt5.plasma-nano
     kdePackages.plasma-workspace
     cassette
-    # konsave
-    # capitaine-cursors-themed
-    # plasma-applet-commandoutput
-    # kdePackages.packagekit-qt
-    # kdePackages.qtstyleplugin-kvantum
-    # qt6.qtwebsockets
-    # qt6.qtwebengine
+    konsave
+    capitaine-cursors-themed
+    plasma-applet-commandoutput
+    kdePackages.packagekit-qt
+    kdePackages.qtstyleplugin-kvantum
+    qt6.qtwebsockets
+    qt6.qtwebengine
     kdePackages.dolphin-plugins
-    # kdePackages.qtwayland
+    kdePackages.qtwayland
     plasmusic-toolbar
-    # kdePackages.plasmatube
-    # kdePackages.kalk
-    # kdePackages.discover
+    kdePackages.plasmatube
+    kdePackages.kalk
+    kdePackages.discover
     kdePackages.kdeconnect-kde
-    # kdePackages.kpat
-    # kdePackages.kcolorchooser
-    # kdePackages.kteatime
-    # kdePackages.kbounce
+    kdePackages.kpat
+    kdePackages.kcolorchooser
+    kdePackages.kteatime
+    kdePackages.kbounce
     kdePackages.wallpaper-engine-plugin
     kdePackages.sddm-kcm
-    # kdePackages.kanagram
-    # kdePackages.kcolorscheme
+    kdePackages.kanagram
+    kdePackages.kcolorscheme
 
-    #       kdePackages.krecorder
-    #       kdePackages.kweather
-    #       kdePackages.kcharselect
-    #       kdePackages.filelight
-    #       kdePackages.kcalc
-    #       kdePackages.kclock
-    #       kdePackages.kholidays
-    #       kdePackages.akonadi-calendar
-    #       kdePackages.libkdepim
-    #       kdePackages.kdepim-addons
-    #       kdePackages.kdepim-runtime
-    #       kdePackages.kcontacts
-    #       libqalculate
-    #       qalculate-qt
+    kdePackages.krecorder
+    kdePackages.kweather
+    kdePackages.kcharselect
+    kdePackages.filelight
+    kdePackages.kcalc
+    kdePackages.kclock
+    kdePackages.kholidays
+    kdePackages.akonadi-calendar
+    kdePackages.libkdepim
+    kdePackages.kdepim-addons
+    kdePackages.kdepim-runtime
+    kdePackages.kcontacts
+    libqalculate
+    qalculate-qt
 
-    #       floorp
+    floorp
     kdePackages.plasma-browser-integration
 
-    #       kdePackages.zanshin
-    # kdePackages.korganizer
-    #       kdePackages.merkuro
-    #       kdePackages.francis
+    kdePackages.zanshin
+    kdePackages.korganizer
+    kdePackages.merkuro
+    kdePackages.francis
 
-    #       lldb
-    # kdePackages.kompare
-    # kdePackages.kdevelop
-    #       kdePackages.kcachegrind
-    #       gcc
-    #       gdb
-    # clang-tools
-    # bash-language-server
-    # nixd
-    # nixfmt
-    # marksman
-    # kdePackages.markdownpart
-    # lua
-    # lua-language-server
-    # cppcheck
+    lldb
+    kdePackages.kompare
+    kdePackages.kdevelop
+    kdePackages.kcachegrind
+    gcc
+    gdb
+    clang-tools
+    bash-language-server
+    nixd
+    nixfmt
+    marksman
+    kdePackages.markdownpart
+    lua
+    lua-language-server
+    cppcheck
     nixos-shell
 
     kdePackages.qtwebengine
@@ -394,8 +473,12 @@
     libreoffice
     pandoc
     texliveFull
-
+    libsForQt5.kservice
+    espanso-wayland
+    espanso
+    kdePackages.kservice
     beeper
+    python312Packages.wget
   ];
 
   services.udev.packages = with pkgs; [

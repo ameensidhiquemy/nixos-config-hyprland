@@ -7,6 +7,7 @@
     nixpkgs-master.url = "github:NixOS/nixpkgs/master";
     chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
     nur.url = "github:nix-community/NUR";
+    kaizen.url = "github:thericecold/kaizen";
 
     fw-fanctrl = {
       url = "github:TamtamHero/fw-fanctrl/packaging/nix";
@@ -154,6 +155,20 @@
           ./hosts/laptop
           fw-fanctrl.nixosModules.default
           chaotic.nixosModules.default
+          home-manager.nixosModules.home-manager
+          {
+            # home-manager.useGlobalPkgs = true;
+            # home-manager.useUserPackages = true;
+            home-manager.sharedModules = [
+              plasma-manager.homeManagerModules.plasma-manager
+            ];
+
+            home-manager.users.ameen = {
+              imports = [./home-manager];
+            };
+          }
+          # {nixpkgs.overlays = customOverlays;}
+          # (import ./home-manager)
         ];
         specialArgs = {
           host = "laptop";
@@ -162,22 +177,22 @@
       };
     };
     # home-manager switch --flake .#ameen@laptop --impure
-    homeConfigurations = {
-      "ameen@laptop" = home-manager.lib.homeManagerConfiguration {
-        pkgs = pkgs;
-        #useUserPackages = true;
-        #useGlobalPkgs = true;
-        extraSpecialArgs = {
-          inherit self inputs username;
-          host = "laptop";
-        };
+    # homeConfigurations = {
+    #   "ameen@laptop" = home-manager.lib.homeManagerConfiguration {
+    #     pkgs = pkgs;
+    #     #useUserPackages = true;
+    #     #useGlobalPkgs = true;
+    #     extraSpecialArgs = {
+    #       inherit self inputs username;
+    #       host = "laptop";
+    #     };
 
-        modules = [
-          {nixpkgs.overlays = customOverlays;}
-          (import ./home-manager)
-        ];
-      };
-    };
+    #     modules = [
+    #       {nixpkgs.overlays = customOverlays;}
+    #       (import ./home-manager)
+    #     ];
+    #   };
+    # };
 
     # home-manager switch --flake .#clementpoiret@desktop --impure
     #       homeConfigurations = {

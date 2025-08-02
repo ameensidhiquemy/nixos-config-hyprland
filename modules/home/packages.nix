@@ -1,8 +1,6 @@
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   home.packages = (
-    with pkgs;
-    [
+    with pkgs; [
       # aerc # for emails
       age # for my secrets
       awscli2
@@ -41,8 +39,8 @@
       toipe # typing test in the terminal
       tldr # user-friendly help
       wormhole-william # magic wormhole in Go
-      # yarn
-      # youtube-music
+      yarn
+      youtube-music
       zenity
 
       # Markdown
@@ -83,7 +81,7 @@
       nixfmt-rfc-style
 
       # Python
-      (import ./python-packages.nix { pkgs = pkgs; })
+      (import ./python-packages.nix {pkgs = pkgs;})
       basedpyright
       micromamba
       ruff
@@ -107,7 +105,7 @@
       terraform
       terraform-ls
 
-      # aider-chat
+      aider-chat
       aria2
       bibiman
       brave
@@ -165,6 +163,7 @@
       xxd
       zotero-beta
       zoom-us
+libsForQt5.kservice
 
       flake.alejandra
       flake.zen-browser

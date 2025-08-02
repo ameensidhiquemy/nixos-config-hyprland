@@ -2,9 +2,9 @@
   programs.git = {
     enable = true;
 
-    userName = "clementpoiret";
-    userEmail = "poiret.clement@outlook.fr";
-    signing.key = "71F084CEA427B23537934233CC6B0EED323A6C13";
+    userName = "ameensidhiquemy";
+    userEmail = "ameen.sidhique10@gmail.com";
+    # signing.key = "71F084CEA427B23537934233CC6B0EED323A6C13";
     #signing.key = "~/.ssh/id_ed25519_sk_main.pub";
 
     delta = {

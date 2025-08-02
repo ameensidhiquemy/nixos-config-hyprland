@@ -1,17 +1,20 @@
-{ pkgs, lib, ... }:
-with lib;
-let
+{
+  pkgs,
+  lib,
+  ...
+}:
+with lib; let
   defaultApps = {
-    archive = [ "org.gnome.FileRoller.desktop" ];
-    browser = [ "zen-beta.desktop" ];
-    text = [ "neovide.desktop" ];
-    image = [ "pqiv.desktop" ];
-    audio = [ "mpv.desktop" ];
-    video = [ "mpv.desktop" ];
-    directory = [ "nemo.desktop" ];
-    office = [ "libreoffice.desktop" ];
-    pdf = [ "org.gnome.Evince.desktop" ];
-    terminal = [ "ghostty.desktop" ];
+    archive = ["org.gnome.FileRoller.desktop"];
+    browser = ["vivaldi-stable.desktop"];
+    text = ["neovide.desktop"];
+    image = ["pqiv.desktop"];
+    audio = ["mpv.desktop"];
+    video = ["mpv.desktop"];
+    directory = ["nemo.desktop"];
+    office = ["libreoffice.desktop"];
+    pdf = ["org.gnome.Evince.desktop"];
+    terminal = ["ghostty.desktop"];
   };
 
   mimeMap = {
@@ -21,7 +24,7 @@ let
       "application/7z"
       "application/*tar"
     ];
-    text = [ "text/plain" ];
+    text = ["text/plain"];
     image = [
       "image/avif"
       "image/bmp"
@@ -53,7 +56,7 @@ let
       "video/x-matroska"
       "video/x-msvideo"
     ];
-    directory = [ "inode/directory" ];
+    directory = ["inode/directory"];
     browser = [
       "text/html"
       "x-scheme-handler/about"
@@ -73,23 +76,21 @@ let
       "application/vnd.ms-powerpoint"
       "application/rtf"
     ];
-    pdf = [ "application/pdf" ];
-    terminal = [ "terminal" ];
+    pdf = ["application/pdf"];
+    terminal = ["terminal"];
   };
 
-  associations =
-    with lists;
+  associations = with lists;
     listToAttrs (
       flatten (mapAttrsToList (key: map (type: attrsets.nameValuePair type defaultApps."${key}")) mimeMap)
     );
-in
-{
+in {
   xdg.configFile."mimeapps.list".force = true;
   xdg.mimeApps.enable = true;
   xdg.mimeApps.associations.added = associations;
   xdg.mimeApps.defaultApplications = associations;
 
-  home.packages = with pkgs; [ junction ];
+  home.packages = with pkgs; [junction];
 
   home.sessionVariables = {
     # prevent wine from creating file associations

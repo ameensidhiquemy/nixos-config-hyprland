@@ -1,11 +1,13 @@
 {
+  inputs,
   username,
   host,
   ...
-}:
-{
-  imports =
-    if (host == "desktop") then [ ../modules/home/default.desktop.nix ] else [ ../modules/home ];
+}: {
+  imports = [
+    ../modules/home
+    inputs.kaizen.homeManagerModules.default
+  ];
 
   nixpkgs = {
     config = {
@@ -14,8 +16,11 @@
     };
   };
 
-  home.username = "${username}";
-  home.homeDirectory = "/home/${username}";
-  home.stateVersion = "24.11";
+  programs.kaizen.enable = true;
+  # home.backupFileExtension = "backup";
+  home.username = "ameen";
+  home.homeDirectory = "/home/ameen";
+
+  home.stateVersion = "24.11"; # Please read the comment before changing.
   programs.home-manager.enable = true;
 }

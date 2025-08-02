@@ -76,9 +76,7 @@ install() {
     cp /etc/nixos/hardware-configuration.nix hosts/${HOST}/hardware-configuration.nix
     sleep 0.2
 
-    # Last Confirmation
-    echo -en "You are about to start the system build, do you want to process ? "
-    confirm
+
 
     # Build the system (flakes + home manager)
     echo -e "\nBuilding the system...\n"

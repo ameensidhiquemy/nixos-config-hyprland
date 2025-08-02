@@ -2,12 +2,14 @@
   pkgs,
   host,
   ...
-}:
-{
+}: {
   networking = {
     hostName = "${host}";
     networkmanager.enable = true;
-    nameservers = [ "1.1.1.1" ];
+    nameservers = [
+      "1.1.1.1"
+      "8.8.8.8"
+    ];
     firewall = {
       enable = true;
       allowedTCPPorts = [
@@ -34,7 +36,7 @@
     settings.KbdInteractiveAuthentication = false;
   };
 
-  environment.systemPackages = with pkgs; [ networkmanagerapplet ];
+  environment.systemPackages = with pkgs; [networkmanagerapplet];
 
   services.resolved = {
     enable = true;

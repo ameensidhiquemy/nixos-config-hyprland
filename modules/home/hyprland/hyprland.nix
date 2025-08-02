@@ -4,8 +4,7 @@
   pkgs,
   config,
   ...
-}:
-{
+}: {
   home.packages = with pkgs; [
     hyprcursor
     hyprpicker
@@ -19,7 +18,7 @@
     wl-clip-persist
     wf-recorder
   ];
-  systemd.user.targets.hyprland-session.Unit.Wants = [ "xdg-desktop-autostart.target" ];
+  systemd.user.targets.hyprland-session.Unit.Wants = ["xdg-desktop-autostart.target"];
   wayland.windowManager.hyprland = {
     enable = true;
     package = null;
@@ -30,18 +29,21 @@
     systemd.enable = false;
 
     plugins = [
-#       pkgs.hyprlandPlugins.hyprspace
+      # pkgs.hyprlandPlugins.hyprspace
     ];
+
   };
 
   xdg.configFile = {
-    "uwsm/env".text = # sh
+    "uwsm/env".text =
+      # sh
       ''
         export NIXOS_OZONE_WL=1
         export ELECTRON_OZONE_PLATFORM_HINT="auto"
       '';
 
-    "uwsm/env-hyprland".text = # sh
+    "uwsm/env-hyprland".text =
+      # sh
       ''
         # For Firefox to run on Wayland
         export MOZ_ENABLE_WAYLAND=1

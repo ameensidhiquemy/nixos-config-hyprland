@@ -2,24 +2,21 @@
   lib,
   host,
   ...
-}:
-let
+}: let
   monitors =
-    if (host == "desktop") then
-      [
-        "HDMI-A-1, preferred, auto, 1"
-        "DP-1, preferred, auto-right, 1, transform, 1"
-        "DP-2, preferred, auto-left, 1"
-      ]
-    else
-      [
-        "eDP-2, highres, auto, 1.6"
-        "DP-3, highres, auto-right, 1.6, transform, 0"
-      ];
+    if (host == "desktop")
+    then [
+      "HDMI-A-1, preferred, auto, 1"
+      "DP-1, preferred, auto-right, 1, transform, 1"
+      "DP-2, preferred, auto-left, 1"
+    ]
+    else [
+      "eDP-2, highres, auto, 1.6"
+      "DP-3, highres, auto-right, 1.6, transform, 0"
+    ];
   theme = import ../theme.nix;
   colors = theme.mocha.colors;
-in
-{
+in {
   wayland.windowManager.hyprland = {
     settings = {
       xwayland.force_zero_scaling = true;
@@ -36,6 +33,10 @@ in
         "poweralertd"
         "uwsm-app swaync"
         "wl-paste --watch cliphist store"
+        "hyprctl dispatch workspace 1; vivaldi"
+        # Move to workspace 1 and open Alacritty
+        "hyprctl dispatch workspace 2; code-cursor"
+        "hyprctl dispatch workspace 3; kitty"
       ];
 
       input = {
@@ -57,12 +58,15 @@ in
         #allow_dumb_copy = true;
       };
 
-      render = lib.mkIf (host == "desktop") { explicit_sync = false; };
+      render = lib.mkIf (host == "desktop") {explicit_sync = false;};
 
-      monitor = [
-        # General rule
-        ", preferred, auto, 1"
-      ] ++ monitors;
+      monitor =
+        [
+          # General rule
+          ", preferred, auto, 1"
+          "eDP-1, 1920x1080, 0x0, 1.25"
+        ]
+        ++ monitors;
 
       general = {
         "$mainMod" = "SUPER";
@@ -124,11 +128,12 @@ in
 
       decoration = {
         rounding = 8;
-        active_opacity = 1.0;
-        inactive_opacity = 0.8;
+        active_opacity = 0.9;
+        inactive_opacity = 0.7;
 
         blur = {
           enabled = true;
+          popups = true;
           size = 2;
           passes = 4;
           brightness = 1;
@@ -205,7 +210,7 @@ in
         # "$mainMod, SEMICOLON, exec, uwsm-app -- ghostty -e zellij --layout nvim"
 
         # plugins
-        "$mainMod, O, overview:toggle"
+        # "$mainMod, O, overview:toggle"
 
         # master layout bindings
         "$mainMod, M, layoutmsg, focusmaster"
@@ -381,7 +386,6 @@ in
         "ignorealpha 0.5, swaync-control-center"
         "ignorealpha 0.5, swaync-notification-window"
       ];
-
     };
   };
 }
